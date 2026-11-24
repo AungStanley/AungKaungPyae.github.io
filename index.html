@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aung Kaung Pyae — Cybersecurity Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0c1420;
+      --bg-2: #0D1520;
+      --panel: #121C2B;
+      --panel-2: #0F1826;
+      --line: #22304A;
+      --line-soft: #1A2536;
+      --text: #E7ECF4;
+      --text-dim: #8496B0;
+      --text-faint: #546279;
+      --ok: #4FD1AE;
+      --ok-dim: #2C6156;
+      --warn: #E8A33D;
+      --warn-dim: #6b5127;
+      --crit: #E2586B;
+      --mono: 'IBM Plex Mono', ui-monospace, monospace;
+      --sans: 'IBM Plex Sans', -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background:
+        radial-gradient(ellipse 900px 500px at 15% -10%, rgba(79, 209, 174, 0.06), transparent),
+        radial-gradient(ellipse 700px 400px at 100% 10%, rgba(232, 163, 61, 0.05), transparent),
+        var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    ::selection {
+      background: var(--ok-dim);
+      color: #fff;
+    }
+
+    /* ---------- top bar ---------- */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 28px;
+      background: rgba(10, 17, 28, 0.88);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      color: var(--text-dim);
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--ok);
+      box-shadow: 0 0 0 3px rgba(79, 209, 174, 0.15);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: .4;
+      }
+    }
+
+    .topbar-left b {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .topbar-nav {
+      display: flex;
+      gap: 26px;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      letter-spacing: .03em;
+    }
+
+    .topbar-nav a {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color .15s;
+    }
+
+    .topbar-nav a:hover {
+      color: var(--ok);
+    }
+
+    @media (max-width:720px) {
+      .topbar-nav {
+        display: none;
+      }
+    }
+
+    section {
+      padding: 88px 28px;
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    @media (max-width:720px) {
+      section {
+        padding: 56px 20px;
+      }
+    }
+
+    /* ---------- hero ---------- */
+    .hero {
+      padding-top: 76px;
+      padding-bottom: 64px;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      letter-spacing: .08em;
+      color: var(--ok);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 26px;
+      height: 1px;
+      background: var(--ok);
+    }
+
+    .hero h1 {
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: clamp(34px, 6vw, 58px);
+      line-height: 1.08;
+      letter-spacing: -.01em;
+      color: #fff;
+    }
+
+    .hero .role {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: clamp(16px, 2.4vw, 20px);
+      color: var(--text-dim);
+      margin-top: 18px;
+      max-width: 640px;
+    }
+
+    .hero .role em {
+      color: var(--warn);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      margin-top: 40px;
+      max-width: 640px;
+    }
+
+    @media (max-width:560px) {
+      .hero-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .stat {
+      background: var(--panel-2);
+      padding: 18px 20px;
+    }
+
+    .stat .n {
+      font-family: var(--mono);
+      font-size: 22px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .stat .l {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      letter-spacing: .06em;
+      color: var(--text-faint);
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 12px;
+      margin-top: 36px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: .02em;
+      padding: 12px 20px;
+      border-radius: 3px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      transition: all .15s;
+    }
+
+    .btn-primary {
+      background: var(--ok);
+      color: #06231c;
+      border-color: var(--ok);
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      background: #6be0c1;
+    }
+
+    .btn-ghost {
+      color: var(--text);
+      background: transparent;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--text-dim);
+      background: var(--panel);
+    }
+
+    /* ---------- section headers ---------- */
+    .sec-head {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+
+    .sec-num {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      color: var(--text-faint);
+    }
+
+    .sec-title {
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      font-weight: 600;
+    }
+
+    .sec-rule {
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+
+    /* ---------- skills ---------- */
+    .skill-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+
+    .skill-cat {
+      background: var(--panel-2);
+      padding: 22px 22px 24px;
+    }
+
+    .skill-cat h4 {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--warn);
+      margin-bottom: 14px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .pill {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      color: var(--text-dim);
+      border: 1px solid var(--line);
+      padding: 5px 10px;
+      border-radius: 2px;
+    }
+
+    /* ---------- case log ---------- */
+    .case {
+      border: 1px solid var(--line);
+      background: var(--panel-2);
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+
+    .case-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .case-id-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .case-id {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      color: var(--text-faint);
+      letter-spacing: .03em;
+    }
+
+    .case-tag {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      letter-spacing: .06em;
+      color: var(--warn);
+      border: 1px solid var(--warn-dim);
+      background: rgba(232, 163, 61, .08);
+      padding: 3px 9px;
+      border-radius: 2px;
+    }
+
+    .case-status {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      letter-spacing: .06em;
+      color: var(--ok);
+      border: 1px solid var(--ok-dim);
+      background: rgba(79, 209, 174, .08);
+      padding: 3px 9px;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .case-status::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--ok);
+    }
+
+    .case-body {
+      padding: 26px 22px 28px;
+    }
+
+    .case-title {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 20px;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .case-meta {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      color: var(--text-faint);
+      margin-bottom: 20px;
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .case-meta span b {
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+
+    .case-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin-bottom: 22px;
+    }
+
+    .case-list li {
+      font-size: 14.5px;
+      color: #c7d1e0;
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.55;
+    }
+
+    .case-list li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--ok);
+      font-weight: 700;
+    }
+
+    .case-shots {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .case-shots img {
+      width: 100%;
+      display: block;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      background: #000;
+    }
+
+    .shot-cap {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-faint);
+      margin-top: 6px;
+      letter-spacing: .02em;
+    }
+
+    .case-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 20px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--ok);
+      text-decoration: none;
+      border-bottom: 1px solid var(--ok-dim);
+      padding-bottom: 2px;
+    }
+
+    .case-link:hover {
+      border-color: var(--ok);
+    }
+
+    /* ---------- experience / education ---------- */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+
+    @media (max-width:720px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .col-panel {
+      background: var(--panel-2);
+      padding: 26px 24px;
+    }
+
+    .col-panel h3 {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 18px;
+    }
+
+    .entry {
+      margin-bottom: 18px;
+    }
+
+    .entry:last-child {
+      margin-bottom: 0;
+    }
+
+    .entry .t {
+      font-weight: 600;
+      font-size: 15px;
+      color: #fff;
+    }
+
+    .entry .s {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      color: var(--text-faint);
+      margin-top: 3px;
+    }
+
+    .entry .d {
+      font-size: 13.5px;
+      color: var(--text-dim);
+      margin-top: 8px;
+      line-height: 1.55;
+    }
+
+    .badge-award {
+      display: inline-block;
+      margin-top: 10px;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      color: var(--warn);
+      border: 1px solid var(--warn-dim);
+      padding: 3px 8px;
+      border-radius: 2px;
+      margin-right: 6px;
+    }
+
+    /* ---------- footer ---------- */
+    footer {
+      border-top: 1px solid var(--line-soft);
+      padding: 56px 28px 40px;
+      text-align: center;
+    }
+
+    footer .f-title {
+      font-family: var(--mono);
+      font-size: 22px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    footer .f-sub {
+      color: var(--text-dim);
+      margin-top: 10px;
+      font-size: 14.5px;
+    }
+
+    footer .f-cta {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 26px;
+      flex-wrap: wrap;
+    }
+
+    footer .f-note {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-faint);
+      margin-top: 44px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">
+    <div class="topbar-left"><span class="dot"></span> <b>AUNG KAUNG PYAE (Stanley)</b> &nbsp;//&nbsp; STATUS: OPEN TO
+      INTERNSHIP
+    </div>
+    <nav class="topbar-nav">
+      <a href="#overview">Overview</a>
+      <a href="#skills">Skills</a>
+      <a href="#caselog">Case Log</a>
+      <a href="#background">Background</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+
+  <section class="hero" id="overview">
+    <div class="hero-eyebrow">DIPLOMA IN CYBERSECURITY &amp; DIGITAL FORENSICS · SINGAPORE POLYTECHNIC</div>
+    <h1>Aung Kaung Pyae (Stanley)</h1>
+    <p class="role">Year&nbsp;2 cybersecurity student building hands-on experience across systems hardening, network
+      security, and secure application development — currently applying for <em>Intern, Cyber Security</em> roles.</p>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="n">3.84</div>
+        <div class="l">GPA</div>
+      </div>
+      <div class="stat">
+        <div class="n">Top 10%</div>
+        <div class="l">Director's Honour Roll</div>
+      </div>
+      <div class="stat">
+        <div class="n">4</div>
+        <div class="l">Hands-on projects logged</div>
+      </div>
+    </div>
+
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="mailto:aungkaung036@gmail.com">Email me →</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/aungkaungpyae" target="_blank"
+        rel="noopener">LinkedIn</a>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">Skills &amp; Tools</span><span
+        class="sec-rule"></span></div>
+    <div class="skill-grid">
+      <div class="skill-cat">
+        <h4>Systems</h4>
+        <div class="pill-row">
+          <span class="pill">Linux Administration</span>
+          <span class="pill">Oracle Linux</span>
+          <span class="pill">GRUB2</span>
+          <span class="pill">chroot jails</span>
+          <span class="pill">Kali Linux</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <h4>Network Security</h4>
+        <div class="pill-row">
+          <span class="pill">Palo Alto NGFW</span>
+          <span class="pill">Zone / Threat Protection</span>
+          <span class="pill">VLANs</span>
+          <span class="pill">ACLs</span>
+          <span class="pill">HSRP</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <h4>Protocols &amp; Infra</h4>
+        <div class="pill-row">
+          <span class="pill">TCP/IP</span>
+          <span class="pill">FTP</span>
+          <span class="pill">HTTP/HTTPS</span>
+          <span class="pill">DNS</span>
+          <span class="pill">LDAP / RADIUS</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <h4>Application Security</h4>
+        <div class="pill-row">
+          <span class="pill">JWT Auth</span>
+          <span class="pill">bcrypt hashing</span>
+          <span class="pill">Input validation</span>
+          <span class="pill">REST API design</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <h4>Dev &amp; Data</h4>
+        <div class="pill-row">
+          <span class="pill">JavaScript</span>
+          <span class="pill">Express.js</span>
+          <span class="pill">SQL / ORM</span>
+          <span class="pill">HTML/CSS</span>
+          <span class="pill">Cryptography basics</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <h4>Languages</h4>
+        <div class="pill-row">
+          <span class="pill">Burmese (native)</span>
+          <span class="pill">English (native)</span>
+          <span class="pill">Chinese (elementary)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="caselog">
+    <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">Case Log — Selected
+        Projects</span><span class="sec-rule"></span></div>
+
+    <!-- CASE 01 -->
+    <div class="case">
+      <div class="case-head">
+        <div class="case-id-wrap">
+          <span class="case-id">CASE-01</span>
+          <span class="case-tag">SYSTEM ACCESS / HARDENING</span>
+        </div>
+        <span class="case-status">RESOLVED</span>
+      </div>
+      <div class="case-body">
+        <div class="case-title">GRUB Password Recovery &amp; Secure FTP Deployment</div>
+        <div class="case-meta">
+          <span><b>Environment</b> Oracle Linux 10 · VMware Workstation</span>
+          <span><b>Role</b> Solo</span>
+          <span><b>Module</b> Linux Administration &amp; Security</span>
+        </div>
+        <ul class="case-list">
+          <li>Recovered a locked GRUB2 bootloader by booting a rescue ISO, chrooting into the installed system, and
+            rebuilding the GRUB config — then closed the same gap by setting a new bootloader password.</li>
+          <li>Stood up vsftpd with chroot-jailed local users and a dedicated non-root upload directory (permissions
+            2770), so the FTP account could never write directly into the live web root.</li>
+          <li>Documented the residual risk in the write-up: bootloader and FTP hardening alone don't stop an attacker
+            with physical disk access — full-disk encryption is the only complete mitigation.</li>
+        </ul>
+        <div class="case-shots">
+          <div>
+            <img src="PassReset.png" alt="Setting a new GRUB2 password after recovery">
+            <div class="shot-cap">Fig. Bootloader password reset after recovery</div>
+          </div>
+          <div>
+            <img src="PageLive.png" alt="Webpage successfully deployed via FTP">
+            <div class="shot-cap">Fig. Page live after FTP upload + permission fix</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE 02 -->
+    <div class="case">
+      <div class="case-head">
+        <div class="case-id-wrap">
+          <span class="case-id">CASE-02</span>
+          <span class="case-tag">THREAT PREVENTION</span>
+        </div>
+        <span class="case-status">RESOLVED</span>
+      </div>
+      <div class="case-body">
+        <div class="case-title">Palo Alto Firewall Hardening &amp; Threat Prevention</div>
+        <div class="case-meta">
+          <span><b>Environment</b> Palo Alto PA-VM · Panorama</span>
+          <span><b>Role</b> Team of 5</span>
+          <span><b>Module</b> Cybersecurity Infrastructure Configuration</span>
+        </div>
+        <ul class="case-list">
+          <li>Configured LDAP/RADIUS-backed authentication and zone-based security policies to enforce least-privilege
+            access between network segments.</li>
+          <li>Built and validated region-based blocking rules — confirmed live in the traffic log, showing consistent
+            policy-deny drops against the blocked source.</li>
+          <li>Enabled Zone Protection profiles (SYN-flood cookies, reconnaissance / port-scan protection) and verified
+            malware blocking using the industry-standard EICAR test file.</li>
+        </ul>
+        <div class="case-shots">
+          <div>
+            <img src="ProofRussiablocked.png" alt="Palo Alto traffic log showing blocked region traffic">
+            <div class="shot-cap">Fig. Traffic log — region-block rule dropping inbound traffic</div>
+          </div>
+          <div>
+            <img src="ZoneProtectionProfile.png" alt="Palo Alto Zone Protection Profile configuration">
+            <div class="shot-cap">Fig. Zone Protection profile — SYN flood + recon protection</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE 03 -->
+    <div class="case">
+      <div class="case-head">
+        <div class="case-id-wrap">
+          <span class="case-id">CASE-03</span>
+          <span class="case-tag">NETWORK ARCHITECTURE</span>
+        </div>
+        <span class="case-status">RESOLVED</span>
+      </div>
+      <div class="case-body">
+        <div class="case-title">Enterprise Network Design — Multi-Site VLAN Architecture</div>
+        <div class="case-meta">
+          <span><b>Environment</b> Cisco Packet Tracer</span>
+          <span><b>Role</b> Team of 4</span>
+          <span><b>Module</b> Infrastructure &amp; Network Fundamentals</span>
+        </div>
+        <ul class="case-list">
+          <li>Designed a multi-level, multi-site network spanning campus buildings and a remote/home site, linked over
+            site-to-site VPN tunnels.</li>
+          <li>Segmented traffic with per-room / per-department VLANs, each on its own subnet and gateway, to contain
+            broadcast domains and limit lateral movement.</li>
+          <li>Folded physical access-control hardware (RFID door readers) into the routed network design, treating them
+            as endpoints subject to the same addressing and access rules as everything else.</li>
+        </ul>
+        <div class="case-shots">
+          <div>
+            <img src="NetworkSch.png" alt="Full multi-site VLAN network topology diagram">
+            <div class="shot-cap">Fig. Full topology — VLANs, gateways, VPN links across sites</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE 04 -->
+    <div class="case">
+      <div class="case-head">
+        <div class="case-id-wrap">
+          <span class="case-id">CASE-04</span>
+          <span class="case-tag">APPLICATION SECURITY</span>
+        </div>
+        <span class="case-status">RESOLVED</span>
+      </div>
+      <div class="case-body">
+        <div class="case-title">Secure Full-Stack Game Backend — "Classroom Survival"</div>
+        <div class="case-meta">
+          <span><b>Environment</b> Node.js · Express · Drizzle ORM · libSQL</span>
+          <span><b>Role</b> Solo</span>
+          <span><b>Module</b> Web Application Development</span>
+        </div>
+        <ul class="case-list">
+          <li>Built JWT-based authentication end to end: bcrypt password hashing (cost factor 10), 1-hour token expiry,
+            and an <code>authenticate</code> middleware guarding every non-public route.</li>
+          <li>Enforced input validation before any database call — regex-checked usernames, length-bounded passwords,
+            integer ID checks — routed through a centralized error handler so nothing fails silently.</li>
+          <li>Designed a normalized schema across 7+ tables with cascading deletes to prevent orphaned records, and
+            batched inserts to avoid N+1 query overhead on gameplay events.</li>
+        </ul>
+        <div class="case-shots">
+          <div>
+            <img src="FullStackGame.png" alt="Classroom Survival game login screen">
+            <div class="shot-cap">Fig. Login screen — live leaderboard fetched via REST API</div>
+          </div>
+        </div>
+        <a class="case-link" href="https://github.com/AY26S1-ST0503/ca1-AungStanley" target="_blank" rel="noopener">View
+          repository on GitHub →</a>
+      </div>
+    </div>
+
+  </section>
+
+  <section id="background">
+    <div class="sec-head"><span class="sec-num">03</span><span class="sec-title">Background</span><span
+        class="sec-rule"></span></div>
+    <div class="two-col">
+      <div class="col-panel">
+        <h3>Experience</h3>
+        <div class="entry">
+          <div class="t">Student Helper — Youth Cyber Exploration Programme Bootcamp</div>
+          <div class="s">Jun 2026 · Singapore Polytechnic, School of Computing</div>
+          <div class="d">Volunteered across a 3-day cybersecurity bootcamp co-organised with the Cyber Security Agency
+            of Singapore (CSA), CyberSG TIG Collaboration Centre, and Gryphons.</div>
+          <img src="Cert_YCEP_1.jpg" alt="Certificate of Appreciation — Youth Cyber Exploration Programme Bootcamp"
+            style="width:100%; margin-top:14px; border:1px solid var(--line); border-radius:2px; display:block;">
+          <div class="shot-cap" style="margin-top:8px;">Fig. Certificate of Appreciation, YCEP Bootcamp 2026</div>
+        </div>
+        <div class="entry">
+          <div class="t">Customer Technical Support — Singtel</div>
+          <div class="s">Jun 2025 – Present · Singapore</div>
+          <div class="d">Frontline troubleshooting for prepaid SIM connectivity, activation, and account issues — the
+            same identify → triage → follow-up-with-stakeholders loop a CSOC queue runs on, just in telecom support.
+          </div>
+          <img src="work.jpg" alt="Customer Tech Support"
+            style="width:100%; margin-top:14px; border:1px solid var(--line); border-radius:2px; display:block;">
+          <div class="shot-cap" style="margin-top:8px;">Fig. Prepaid SIM Customer Tech Support at Singtel</div>
+        </div>
+        <div class="entry">
+          <div class="t">Retail Promoter — Singtel</div>
+          <div class="s">Mar 2025 – Present · Singapore</div>
+          <div class="d">Prepaid SIM promotions</div>
+          <img src="promoter.jpg" alt="Retail Promoter"
+            style="width:100%; margin-top:14px; border:1px solid var(--line); border-radius:2px; display:block;">
+          <div class="shot-cap" style="margin-top:8px;">Fig. Promoter for GOMO by Singtel</div>
+        </div>
+        <div class="entry">
+          <div class="t">Co-founder — Edu-Labs</div>
+          <div class="s">Tuition for IGCSE O-Level students</div>
+          <div class="d">Ran business operations, pricing, and tutor coordination while personally tutoring A-Math and
+            E-Math.</div>
+          <img src="EDULabs.png" alt="Tuition"
+            style="width:100%; margin-top:14px; border:1px solid var(--line); border-radius:2px; display:block;">
+          <div class="shot-cap" style="margin-top:8px;">Fig. Co-Founder of EDULabs</div>
+          <a class="case-link" href="https://www.facebook.com/share/19853oyvyD/?mibextid=wwXIfr" target="_blank"
+            rel="noopener">View Edu-Labs on Facebook →</a>
+        </div>
+      </div>
+      <div class="col-panel">
+        <h3>Education</h3>
+        <div class="entry">
+          <div class="t">Diploma in Cybersecurity &amp; Digital Forensics</div>
+          <div class="s">Singapore Polytechnic · 2025 – 2028</div>
+          <div class="d">GPA 3.84. Coursework spans Linux administration, network security infrastructure, digital
+            forensics fundamentals, and web application development.</div>
+          <div>
+            <span class="badge-award">Director's Honour Roll 2025/26 — Top 10%</span>
+            <span class="badge-award">Pearson Excellence Award</span>
+          </div>
+          <img src="DHR.jpeg" alt="Director's Honour Roll award ceremony"
+            style="width:100%; margin-top:16px; border:1px solid var(--line); border-radius:2px; display:block;">
+          <div class="shot-cap" style="margin-top:8px;">Fig. Director's Honour Roll award ceremony, 2025/26</div>
+        </div>
+        <div class="entry">
+          <div class="t">IGCSE O Levels</div>
+          <div class="s">Zenith International Education Center · 2023 – 2024</div>
+          <div style="margin-top: 16px;">
+            <img src="PearsonAwards.jpeg" alt="IGCSE O Level Certification"
+              style="width: 100%; display: block; border: 1px solid var(--line); border-radius: 2px; background: #000; padding-bottom: 5px;">
+            <div class="shot-cap">Fig. IGCSE O Level Examination Documentation &amp; Records</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="f-title">Let's talk.</div>
+    <div class="f-sub">Seeking a full-year Cyber Security internship — open to CSOC, network security, and application
+      security tracks.</div>
+    <div class="f-cta">
+      <a class="btn btn-primary" href="mailto:aungkaung036@gmail.com">aungkaung036@gmail.com</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/aungkaungpyae" target="_blank"
+        rel="noopener">linkedin.com/in/aungkaungpyae</a>
+    </div>
+    <div class="f-note">SINGAPORE · SESSION LOG CLOSED — AWAITING NEXT TICKET</div>
+  </footer>
+
+</body>
+
+</html>
